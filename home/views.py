@@ -15,6 +15,12 @@ class FoodViewSet(ModelViewSet):
     queryset = Food.objects.all()
     serializer_class = FoodSerializer
 
+    def get_queryset(self):
+        if self.request.version == 'v1':
+            return Food.objects.all()
+        elif self.request.version == 'v2':
+            return Food.objects.all().order_by('-id')
+
 
 class CommentList(ModelViewSet):
     queryset = Comment.objects.all()
